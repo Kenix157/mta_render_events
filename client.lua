@@ -103,7 +103,9 @@ function removeRenderEvent(theFunction, event)
 	
 	local targetFunctions = allTargetFunctions[event]
 	
-	for i = 1, len( targetFunctions ) do
+	local i = 1;
+	
+	repeat
 		if targetFunctions[i][1] == theFunction then
 			table_remove(targetFunctions, i)
 			
@@ -115,8 +117,10 @@ function removeRenderEvent(theFunction, event)
 			end
 			
 			return true
+		else
+			i = i + 1;
 		end
-	end
+	until not targetFunctions[i];
 	
 	return false
 end
