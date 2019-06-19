@@ -34,7 +34,9 @@ end
 local processTargetFunction = function ( timeSlice )
 	local targetFunctions = allTargetFunctions[ eventName ]
 	
-	for i = 1, len( targetFunctions ) do
+	local i = 1;
+	
+	repeat
 		local targetFunctionData = targetFunctions[i]
 		local arguments = targetFunctionData[2]
 		
@@ -47,7 +49,9 @@ local processTargetFunction = function ( timeSlice )
 				targetFunctionData[ 1 ]( unpack( arguments ) )
 			end
 		end
-	end
+		
+		i = i + 1;
+	until not targetFunctions[i];
 end
 
 
@@ -103,9 +107,7 @@ function removeRenderEvent(theFunction, event)
 	
 	local targetFunctions = allTargetFunctions[event]
 	
-	local i = 1;
-	
-	repeat
+	for i = 1, len( targetFunctions ) do
 		if targetFunctions[i][1] == theFunction then
 			table_remove(targetFunctions, i)
 			
@@ -117,10 +119,8 @@ function removeRenderEvent(theFunction, event)
 			end
 			
 			return true
-		else
-			i = i + 1;
 		end
-	until not targetFunctions[i];
+	end
 	
 	return false
 end
